@@ -13,6 +13,9 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
+              $this->loadComponent('ErrorHandler', [
+            'controller' => $this
+        ]);
         $this->RequestHandler->ext = 'json';
     }
 }
