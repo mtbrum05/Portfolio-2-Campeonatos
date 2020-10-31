@@ -10,12 +10,8 @@ Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
 
-    $routes->setExtensions(['json']);
-    // $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-    // $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
-
-
     $routes->resources('TipoCampeonato', ['path' => 'tipo_campeonato']);
 
     $routes->fallbacks(DashedRoute::class);
+    
 });

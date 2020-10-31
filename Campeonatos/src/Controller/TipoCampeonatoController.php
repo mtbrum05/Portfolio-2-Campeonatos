@@ -15,17 +15,12 @@ use Cake\Http\Exception\NotFoundException;
  */
 class TipoCampeonatoController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null
-     */
+
     public function index()
     {
         try{
             
         $tipoCampeonato = $this->paginate($this->TipoCampeonato);
-
         $this->set([
             'data' => [
                 'tipoCampeonato' => $tipoCampeonato,
@@ -41,6 +36,8 @@ class TipoCampeonatoController extends AppController
 
     public function view($id = null)
     {
+
+        try{
             $tipoCampeonato = $this->TipoCampeonato->get($id);
 
             $this->set([
@@ -49,6 +46,12 @@ class TipoCampeonatoController extends AppController
                 ],
                 '_serialize' => ['data']        
                 ]);    
+                
+        }catch(NotFoundException $e){
+            return $this->ErrorHandler->errorHandler($e, 404);
+        }catch(Exception $e){
+            return $this->ErrorHandler->errorHandler($e, 500);
+        }
         
     }
 
