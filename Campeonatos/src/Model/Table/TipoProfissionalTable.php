@@ -1,25 +1,24 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\TipoCampeonato;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * TipoCampeonato Model
+ * TipoProfissional Model
  *
- * @method \App\Model\Entity\TipoCampeonato get($primaryKey, $options = [])
- * @method \App\Model\Entity\TipoCampeonato newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\TipoCampeonato[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\TipoCampeonato|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\TipoCampeonato saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\TipoCampeonato patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\TipoCampeonato[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\TipoCampeonato findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\TipoProfissional get($primaryKey, $options = [])
+ * @method \App\Model\Entity\TipoProfissional newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\TipoProfissional[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\TipoProfissional|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\TipoProfissional saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\TipoProfissional patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\TipoProfissional[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\TipoProfissional findOrCreate($search, callable $callback = null, $options = [])
  */
-class TipoCampeonatoTable extends Table
+class TipoProfissionalTable extends Table
 {
     /**
      * Initialize method
@@ -31,7 +30,7 @@ class TipoCampeonatoTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('tipo_campeonato');
+        $this->setTable('tipo_profissional');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
     }
@@ -51,8 +50,8 @@ class TipoCampeonatoTable extends Table
         $validator
             ->scalar('descricao')
             ->maxLength('descricao', 100)
-            ->requirePresence('descricao', 'create', 'A descrição do tipo de campeonato não pode ser vazia.')
-            ->notEmptyString('descricao', 'A descrição do tipo de campeonato não pode ser vazia.');
+            ->requirePresence('descricao', 'create', 'A descrição do tipo de profissional não pode ser vazia.')
+            ->notEmptyString('descricao', 'A descrição do tipo de profissional não pode ser vazia.');
 
         $validator
             ->dateTime('data_criacao')
@@ -69,6 +68,7 @@ class TipoCampeonatoTable extends Table
         return $rules;
     }
 
+
     public function requestAdd($data){
         $retorno = null;
 
@@ -78,7 +78,7 @@ class TipoCampeonatoTable extends Table
         return $retorno;
     }
 
-    public function requestEdit($data, $tipoCampeonato){
+    public function requestEdit($data, $tipoProfissional){
         $retorno = null;
 
         $retorno['data_criacao'] = date('Y-m-d H:i:s');
@@ -86,7 +86,7 @@ class TipoCampeonatoTable extends Table
         if(isset($data['descricao']) && !is_null($data['descricao'])){
             $retorno['descricao'] = $data['descricao'];
         }else{
-            $retorno['descricao'] = $tipoCampeonato->descricao;
+            $retorno['descricao'] = $tipoProfissional->descricao;
         } 
         return $retorno;
     }
