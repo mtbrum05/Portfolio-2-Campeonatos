@@ -50,7 +50,7 @@ class TipoCampeonatoTable extends Table
         $validator
             ->scalar('descricao')
             ->maxLength('descricao', 100)
-            ->requirePresence('descricao', 'create')
+            ->requirePresence('descricao', 'create', 'A descrição do tipo de campeonato não pode ser vazia.')
             ->notEmptyString('descricao');
 
         $validator

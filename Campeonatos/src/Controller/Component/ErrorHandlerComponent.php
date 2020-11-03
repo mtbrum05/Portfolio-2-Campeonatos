@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Component;
 
+use Exception;
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 
@@ -29,9 +30,12 @@ class ErrorHandlerComponent extends Component
     }
 
     public function errorHandler($e, $error_code = 500) {
+        if($e->getMessage()){
+            $message = "Internal Server Error";
+        }
         $dados = [
             "data" => null,
-            "message" => json_decode($e->getMessage(), true)
+            "message" => $message
         ];
         return $this->_controller->response
                     ->withStatus($error_code)

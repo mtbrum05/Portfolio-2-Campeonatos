@@ -64,6 +64,8 @@ class TipoCampeonatoController extends AppController
         if ($this->request->is('post')) {
             $tipoCampeonato = $this->TipoCampeonato->newEntity();
             $tipoCampeonato = $this->TipoCampeonato->patchEntity($tipoCampeonato, $data);
+ 
+
             if ($this->TipoCampeonato->save($tipoCampeonato)) {
                 $message = 'Saved';
             } else {
