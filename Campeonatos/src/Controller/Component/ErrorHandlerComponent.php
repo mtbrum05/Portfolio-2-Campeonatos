@@ -30,12 +30,9 @@ class ErrorHandlerComponent extends Component
     }
 
     public function errorHandler($e, $error_code = 500) {
-        if($e->getMessage()){
-            $message = "Internal Server Error";
-        }
         $dados = [
             "data" => null,
-            "message" => $message
+            "message" => json_decode($e->getMessage(), true)
         ];
         return $this->_controller->response
                     ->withStatus($error_code)
