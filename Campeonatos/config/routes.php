@@ -11,6 +11,8 @@ Router::defaultRouteClass(DashedRoute::class);
 Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->resources('TipoCampeonato', ['path' => 'tipo_campeonato']);
+    $routes->resources('TipoProfissional', ['path' => 'tipo_profissional']);
+
 
     $routes->fallbacks(DashedRoute::class);
     
