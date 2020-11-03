@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\TipoCampeonato;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -50,8 +51,8 @@ class TipoCampeonatoTable extends Table
         $validator
             ->scalar('descricao')
             ->maxLength('descricao', 100)
-            ->requirePresence('descricao', 'create')
-            ->notEmptyString('descricao');
+            ->requirePresence('descricao', 'create', 'A descrição do tipo de campeonato não pode ser vazia.')
+            ->notEmptyString('descricao', 'A descrição do tipo de campeonato não pode ser vazia.');
 
         $validator
             ->dateTime('data_criacao')
@@ -59,5 +60,27 @@ class TipoCampeonatoTable extends Table
             ->notEmptyDateTime('data_criacao');
 
         return $validator;
+    }
+
+    public function requestAdd($data){
+        $retorno = null;
+
+        $retorno['data_criacao'] = date('Y-m-d H:i:s');
+        isset($data['descricao']) ? $retorno['descricao'] = $data['descricao'] : null;
+
+        return $retorno;
+    }
+
+    public function requestEdit($data, $tipoCampeonato){
+        $retorno = null;
+
+        $retorno['data_criacao'] = date('Y-m-d H:i:s');
+
+        if(isset($data['descricao']) && !is_null($data['descricao'])){
+            $retorno['descricao'] = $data['descricao'];
+        }else{
+            $retorno['descricao'] = $tipoCampeonato->descricao;
+        } 
+        return $retorno;
     }
 }

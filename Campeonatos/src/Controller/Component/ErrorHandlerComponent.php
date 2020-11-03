@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Component;
 
+use Exception;
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 
