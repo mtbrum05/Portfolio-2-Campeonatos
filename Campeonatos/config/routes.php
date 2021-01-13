@@ -16,10 +16,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->resources('Profissional', ['path' => 'profissional']);
     $routes->resources('EquipeProfissional', ['path' => 'equipe_profissional']);
     $routes->resources('Campeonato', ['path' => 'campeonato']);
-
-
-
-
+    $routes->resources('LogCampeonato', ['path' => 'log_campeonato']);
 
     $routes->fallbacks(DashedRoute::class);
     
