@@ -15,6 +15,8 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->resources('Equipe', ['path' => 'equipe']);
     $routes->resources('Profissional', ['path' => 'profissional']);
     $routes->resources('EquipeProfissional', ['path' => 'equipe_profissional']);
+    $routes->resources('Campeonato', ['path' => 'campeonato']);
+
 
 
 

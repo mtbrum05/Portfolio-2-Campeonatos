@@ -107,7 +107,12 @@ class TipoCampeonatoController extends AppController
         $data = $this->request->getData();
 
         try {
-            $tipoCampeonato = $this->TipoCampeonato->get($id);
+            $tipoCampeonato = $this->TipoCampeonato->findById($id)->first();
+            
+            if(!$tipoCampeonato){
+                $dados = ['tipoCampeonato' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            }
             $data = $this->TipoCampeonato->requestEdit($data, $tipoCampeonato);
             if ($this->request->is(['put'])) {
                 $tipoCampeonato = $this->TipoCampeonato->patchEntity($tipoCampeonato, $data);

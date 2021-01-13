@@ -103,7 +103,13 @@ class ProfissionalController extends AppController
         $data = $this->request->getData();
 
         try {
-            $profissional = $this->Profissional->get($id);
+            $profissional = $this->Profissional->findById($id)->first();
+            
+            if(!$profissional){
+                $dados = ['profissional' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            } 
+
             
             $data = $this->Profissional->requestEdit($data, $profissional);
             if ($this->request->is(['put'])) {

@@ -101,8 +101,12 @@ class EquipeProfissionalController extends AppController
         $data = $this->request->getData();
 
         try {
-            $equipeProfissional = $this->EquipeProfissional->get($id);
+            $equipeProfissional = $this->EquipeProfissional->findById($id)->first();
             
+            if(!$equipeProfissional){
+                $dados = ['equipeProfissional' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            } 
             $data = $this->EquipeProfissional->requestEdit($data, $equipeProfissional);
             if ($this->request->is(['put'])) {
                 $equipeProfissional = $this->EquipeProfissional->patchEntity($equipeProfissional, $data);
