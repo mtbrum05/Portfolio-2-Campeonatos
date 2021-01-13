@@ -78,4 +78,55 @@ class LogCampeonatoTable extends Table
 
         return $validator;
     }
+
+    public function requestAdd($data){
+        $retorno = null;
+
+        $retorno['data_criacao'] = date('Y-m-d H:i:s');
+        isset($data['id_campeonato']) ? $retorno['id_campeonato'] = $data['id_campeonato'] : null;
+        isset($data['ativo']) ? $retorno['ativo'] = $data['ativo'] : null;
+        isset($data['data_inativacao']) ? $retorno['data_inativacao'] = $data['data_inativacao'] : null;
+        isset($data['observacao']) ? $retorno['observacao'] = $data['observacao'] : null;
+        isset($data['id_equipe_profissional']) ? $retorno['id_equipe_profissional'] = $data['id_equipe_profissional'] : null;
+
+
+
+        return $retorno;
+    }
+
+    public function requestEdit($data, $logProfissional){
+        $retorno = null;
+
+        if(isset($data['id_campeonato']) && !is_null($data['id_campeonato'])){
+            $retorno['id_campeonato'] = $data['id_campeonato'];
+        }else{
+            $retorno['id_campeonato'] = $logProfissional->id_campeonato;
+        }
+
+        if(isset($data['ativo']) && !is_null($data['ativo'])){
+            $retorno['ativo'] = $data['ativo'];
+        }else{
+            $retorno['ativo'] = $logProfissional->ativo;
+        }
+
+        if(isset($data['data_inativacao']) && !is_null($data['data_inativacao'])){
+            $retorno['data_inativacao'] = $data['data_inativacao'];
+        }else{
+            $retorno['data_inativacao'] = $logProfissional->data_inativacao;
+        }
+
+        if(isset($data['observacao']) && !is_null($data['observacao'])){
+            $retorno['observacao'] = $data['observacao'];
+        }else{
+            $retorno['observacao'] = $logProfissional->observacao;
+        }
+
+        if(isset($data['id_equipe_profissional']) && !is_null($data['id_equipe_profissional'])){
+            $retorno['id_equipe_profissional'] = $data['id_equipe_profissional'];
+        }else{
+            $retorno['id_equipe_profissional'] = $logProfissional->id_equipe_profissional;
+        }
+        
+        return $retorno;
+    }
 }
