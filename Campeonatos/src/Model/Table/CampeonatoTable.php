@@ -79,4 +79,55 @@ class CampeonatoTable extends Table
 
         return $validator;
     }
+
+    public function requestAdd($data){
+        $retorno = null;
+
+        $retorno['data_criacao'] = date('Y-m-d H:i:s');
+        isset($data['nome']) ? $retorno['nome'] = $data['nome'] : null;
+        isset($data['id_tipo_campeonato']) ? $retorno['id_tipo_campeonato'] = $data['id_tipo_campeonato'] : null;
+        isset($data['data_inicio']) ? $retorno['data_inicio'] = $data['data_inicio'] : null;
+        isset($data['data_fim']) ? $retorno['data_fim'] = $data['data_fim'] : null;
+        isset($data['descricao']) ? $retorno['descricao'] = $data['descricao'] : null;
+
+
+
+        return $retorno;
+    }
+
+    public function requestEdit($data, $campeonato){
+        $retorno = null;
+
+        if(isset($data['nome']) && !is_null($data['nome'])){
+            $retorno['nome'] = $data['nome'];
+        }else{
+            $retorno['nome'] = $campeonato->nome;
+        }
+
+        if(isset($data['id_tipo_campeonato']) && !is_null($data['id_tipo_campeonato'])){
+            $retorno['id_tipo_campeonato'] = $data['id_tipo_campeonato'];
+        }else{
+            $retorno['id_tipo_campeonato'] = $campeonato->id_tipo_campeonato;
+        }
+
+        if(isset($data['data_inicio']) && !is_null($data['data_inicio'])){
+            $retorno['data_inicio'] = $data['data_inicio'];
+        }else{
+            $retorno['data_inicio'] = $campeonato->data_inicio;
+        }
+
+        if(isset($data['data_fim']) && !is_null($data['data_fim'])){
+            $retorno['data_fim'] = $data['data_fim'];
+        }else{
+            $retorno['data_fim'] = $campeonato->data_fim;
+        }
+
+        if(isset($data['descricao']) && !is_null($data['descricao'])){
+            $retorno['descricao'] = $data['descricao'];
+        }else{
+            $retorno['descricao'] = $equipeProfissional->descricao;
+        }
+        
+        return $retorno;
+    }
 }

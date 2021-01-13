@@ -7,22 +7,21 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Exception\BadRequestException;
 
 /**
- * Equipe Controller
+ * Campeonato Controller
  *
- * @property \App\Model\Table\EquipeTable $Equipe
  *
- * @method \App\Model\Entity\Equipe[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Campeonato[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class EquipeController extends AppController
+class CampeonatoController extends AppController
 {
     public function index()
     {
         try {
 
-            $equipe = $this->paginate($this->Equipe);
+            $campeonato = $this->paginate($this->Campeonato);
             $this->set([
                 'data' => [
-                    'equipe' => $equipe,
+                    'campeonato' => $campeonato,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -31,21 +30,20 @@ class EquipeController extends AppController
         }
     }
 
-
     public function view($id = null)
     {
 
         try {
-            $equipe = $this->Equipe->findById($id)->first();
+            $campeonato = $this->Campeonato->findById($id)->first();
             
-            if(!$equipe){
-                $dados = ['equipe' => ['_error' => 'Registro não encontrado.']];
+            if(!$campeonato){
+                $dados = ['campeonato' => ['_error' => 'Registro não encontrado.']];
                 throw new NotFoundException(json_encode($dados));
             }
 
             $this->set([
                 'data' => [
-                    'equipe' => $equipe,
+                    'campeonato' => $campeonato,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -56,31 +54,29 @@ class EquipeController extends AppController
         }
     }
 
-
     public function add()
     {
 
 
         $data = $this->request->getData();
-        $data = $this->Equipe->requestAdd($data);
-
+        $data = $this->Campeonato->requestAdd($data);
         try {
 
             if ($this->request->is('post')) {
-                $equipe = $this->Equipe->newEntity();
-                $equipe = $this->Equipe->patchEntity($equipe, $data);
+                $campeonato = $this->Campeonato->newEntity();
+                $campeonato = $this->Campeonato->patchEntity($campeonato, $data);
 
-                if ($this->Equipe->save($equipe)) {
+                if ($this->Campeonato->save($campeonato)) {
                     $message = 'Salvo com sucesso!';
                 } else {
-                    $message = ['equipe' => $equipe->getErrors()];
+                    $message = ['campeonato' => $campeonato->getErrors()];
                     throw new BadRequestException(json_encode($message));
                 }
             }
             $this->set([
                 'data' => [
                     'message' => $message,
-                    'equipe' => $equipe,
+                    'campeonato' => $campeonato,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -104,26 +100,26 @@ class EquipeController extends AppController
         $data = $this->request->getData();
 
         try {
-            $equipe = $this->Equipe->findById($id)->first();
+            $campeonato = $this->Campeonato->findById($id)->first();
             
-            if(!$equipe){
-                $dados = ['equipe' => ['_error' => 'Registro não encontrado.']];
+            if(!$campeonato){
+                $dados = ['campeonato' => ['_error' => 'Registro não encontrado.']];
                 throw new NotFoundException(json_encode($dados));
-            }
-            $data = $this->Equipe->requestEdit($data, $equipe);
+            }             
+            $data = $this->Campeonato->requestEdit($data, $campeonato);
             if ($this->request->is(['put'])) {
-                $equipe = $this->Equipe->patchEntity($equipe, $data);
-                if ($this->Equipe->save($equipe)) {
+                $campeonato = $this->Campeonato->patchEntity($campeonato, $data);
+                if ($this->Campeonato->save($campeonato)) {
                     $message = 'Editado com sucesso!';
                 } else {
-                    $message = ['equipe' => $equipe->getErrors()];
+                    $message = ['campeonato' => $campeonato->getErrors()];
                     throw new BadRequestException(json_encode($message));
                 }
             }
             $this->set([
                 'data' => [
                     'message' => $message,
-                    'equipe' => $equipe,
+                    'campeonato' => $campeonato,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -147,19 +143,17 @@ class EquipeController extends AppController
     public function delete($id = null)
     {
         try {
-
-            $equipe = $this->Equipe->findById($id)->first();
+            $campeonato = $this->Campeonato->findById($id)->first();
             
-            if(!$equipe){
-                $dados = ['equipe' => ['_error' => 'Registro não encontrado.']];
+            if(!$campeonato){
+                $dados = ['campeonato' => ['_error' => 'Registro não encontrado.']];
                 throw new NotFoundException(json_encode($dados));
-            }
-            if ($this->Equipe->delete($equipe)) {
+            } 
+
+            if ($this->Campeonato->delete($campeonato)) {
                 $message = 'Deletado com sucesso!';
             } else {
-                $dados = ['equipe' => ['_error' => 'Impossivel deletar, pois pode gerar dados orfãos.']];
-                throw new BadRequestException(json_encode($dados));
-                
+                $message = $campeonato->getErrors();
             }
             $this->set([
                 'data' => [
@@ -167,8 +161,6 @@ class EquipeController extends AppController
                 ],
                 '_serialize' => ['data']
             ]);
-        } catch (BadRequestException $e) {
-            return $this->ErrorHandler->errorHandler($e, 400);
         } catch (NotFoundException $e) {
             return $this->ErrorHandler->errorHandler($e, 404);
         } catch (Exception $e) {

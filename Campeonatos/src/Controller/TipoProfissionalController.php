@@ -121,7 +121,12 @@ class TipoProfissionalController extends AppController
         $data = $this->request->getData();
 
         try {
-            $tipoProfissional = $this->TipoProfissional->get($id);
+            $tipoProfissional = $this->TipoProfissional->findById($id)->first();
+            
+            if(!$tipoProfissional){
+                $dados = ['tipoProfissional' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            }
             $data = $this->TipoProfissional->requestEdit($data, $tipoProfissional);
             if ($this->request->is(['put'])) {
                 $tipoProfissional = $this->TipoProfissional->patchEntity($tipoProfissional, $data);
