@@ -36,7 +36,12 @@ class EquipeController extends AppController
     {
 
         try {
-            $equipe = $this->Equipe->get($id);
+            $equipe = $this->Equipe->findById($id)->first();
+            
+            if(!$equipe){
+                $dados = ['equipe' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            }
 
             $this->set([
                 'data' => [
@@ -138,12 +143,18 @@ class EquipeController extends AppController
     {
         try {
 
-            $this->request->allowMethod(['delete']);
-            $equipe = $this->Equipe->get($id);
+            $equipe = $this->Equipe->findById($id)->first();
+            
+            if(!$equipe){
+                $dados = ['equipe' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            }
             if ($this->Equipe->delete($equipe)) {
                 $message = 'Deletado com sucesso!';
             } else {
-                $message = $equipe->getErrors();
+                $dados = ['equipe' => ['_error' => 'Impossivel deletar, pois pode gerar dados orfãos.']];
+                throw new BadRequestException(json_encode($dados));
+                
             }
             $this->set([
                 'data' => [
@@ -151,10 +162,14 @@ class EquipeController extends AppController
                 ],
                 '_serialize' => ['data']
             ]);
+        } catch (BadRequestException $e) {
+            return $this->ErrorHandler->errorHandler($e, 400);
         } catch (NotFoundException $e) {
             return $this->ErrorHandler->errorHandler($e, 404);
         } catch (Exception $e) {
-            debug($e);die;
+            if($e->getCode() == 23000){
+                return $this->ErrorHandler->errorHandlerConstraintViolation($e, 400);
+            }
             return $this->ErrorHandler->errorHandler($e, 500);
         }
     }

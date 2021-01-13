@@ -1,31 +1,30 @@
 <?php
-
 namespace App\Controller;
 
 use Exception;
 use App\Controller\AppController;
-use App\Model\Entity\TipoCampeonato;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Exception\BadRequestException;
 
+
 /**
- * TipoCampeonato Controller
+ * Profissional Controller
  *
- * @property \App\Model\Table\TipoCampeonatoTable $TipoCampeonato
+ * @property \App\Model\Table\ProfissionalTable $Profissional
  *
- * @method \App\Model\Entity\TipoCampeonato[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Profissional[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class TipoCampeonatoController extends AppController
+class ProfissionalController extends AppController
 {
 
     public function index()
     {
         try {
 
-            $tipoCampeonato = $this->paginate($this->TipoCampeonato);
+            $profissionais = $this->paginate($this->Profissional);
             $this->set([
                 'data' => [
-                    'tipoCampeonato' => $tipoCampeonato,
+                    'profissionais' => $profissionais,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -34,21 +33,20 @@ class TipoCampeonatoController extends AppController
         }
     }
 
-
     public function view($id = null)
     {
 
         try {
-            $tipoCampeonato = $this->TipoCampeonato->findById($id)->first();
+            $profissional = $this->Profissional->findById($id)->first();
             
-            if(!$tipoCampeonato){
-                $dados = ['tipoCampeonato' => ['_error' => 'Registro não encontrado.']];
+            if(!$profissional){
+                $dados = ['profissional' => ['_error' => 'Registro não encontrado.']];
                 throw new NotFoundException(json_encode($dados));
             }
 
             $this->set([
                 'data' => [
-                    'tipoCampeonato' => $tipoCampeonato,
+                    'profissional' => $profissional,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -59,31 +57,29 @@ class TipoCampeonatoController extends AppController
         }
     }
 
-
     public function add()
     {
 
 
         $data = $this->request->getData();
-        $data = $this->TipoCampeonato->requestAdd($data);
-
+        $data = $this->Profissional->requestAdd($data);
         try {
 
             if ($this->request->is('post')) {
-                $tipoCampeonato = $this->TipoCampeonato->newEntity();
-                $tipoCampeonato = $this->TipoCampeonato->patchEntity($tipoCampeonato, $data);
+                $profissional = $this->Profissional->newEntity();
+                $profissional = $this->Profissional->patchEntity($profissional, $data);
 
-                if ($this->TipoCampeonato->save($tipoCampeonato)) {
+                if ($this->Profissional->save($profissional)) {
                     $message = 'Salvo com sucesso!';
                 } else {
-                    $message = ['tipo_campeonato' => $tipoCampeonato->getErrors()];
+                    $message = ['profissional' => $profissional->getErrors()];
                     throw new BadRequestException(json_encode($message));
                 }
             }
             $this->set([
                 'data' => [
                     'message' => $message,
-                    'tipoCampeonato' => $tipoCampeonato,
+                    'profissional' => $profissional,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -107,21 +103,22 @@ class TipoCampeonatoController extends AppController
         $data = $this->request->getData();
 
         try {
-            $tipoCampeonato = $this->TipoCampeonato->get($id);
-            $data = $this->TipoCampeonato->requestEdit($data, $tipoCampeonato);
+            $profissional = $this->Profissional->get($id);
+            
+            $data = $this->Profissional->requestEdit($data, $profissional);
             if ($this->request->is(['put'])) {
-                $tipoCampeonato = $this->TipoCampeonato->patchEntity($tipoCampeonato, $data);
-                if ($this->TipoCampeonato->save($tipoCampeonato)) {
+                $profissional = $this->Profissional->patchEntity($profissional, $data);
+                if ($this->Profissional->save($profissional)) {
                     $message = 'Editado com sucesso!';
                 } else {
-                    $message = ['tipo_campeonato' => $tipoCampeonato->getErrors()];
+                    $message = ['profissional' => $profissional->getErrors()];
                     throw new BadRequestException(json_encode($message));
                 }
             }
             $this->set([
                 'data' => [
                     'message' => $message,
-                    'tipoCampeonato' => $tipoCampeonato,
+                    'profissional' => $profissional,
                 ],
                 '_serialize' => ['data']
             ]);
@@ -145,18 +142,17 @@ class TipoCampeonatoController extends AppController
     public function delete($id = null)
     {
         try {
-
-            $tipoCampeonato = $this->TipoCampeonato->findById($id)->first();
+            $profissional = $this->Profissional->findById($id)->first();
             
-            if(!$tipoCampeonato){
-                $dados = ['tipoCampeonato' => ['_error' => 'Registro não encontrado.']];
+            if(!$profissional){
+                $dados = ['profissional' => ['_error' => 'Registro não encontrado.']];
                 throw new NotFoundException(json_encode($dados));
-            }
-            
-            if ($this->TipoCampeonato->delete($tipoCampeonato)) {
+            } 
+
+            if ($this->Profissional->delete($profissional)) {
                 $message = 'Deletado com sucesso!';
             } else {
-                $message = $tipoCampeonato->getErrors();
+                $message = $profissional->getErrors();
             }
             $this->set([
                 'data' => [

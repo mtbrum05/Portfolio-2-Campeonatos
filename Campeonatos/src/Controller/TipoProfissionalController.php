@@ -47,7 +47,12 @@ class TipoProfissionalController extends AppController
     {
 
         try {
-            $tipoProfissional = $this->TipoProfissional->get($id);
+            $tipoProfissional = $this->TipoProfissional->findById($id)->first();
+            
+            if(!$tipoProfissional){
+                $dados = ['tipoProfissional' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            }
 
             $this->set([
                 'data' => [
@@ -156,8 +161,12 @@ class TipoProfissionalController extends AppController
     {
         try {
 
-            $this->request->allowMethod(['delete']);
-            $tipoProfissional = $this->TipoProfissional->get($id);
+            $tipoProfissional = $this->TipoProfissional->findById($id)->first();
+            
+            if(!$tipoProfissional){
+                $dados = ['tipoProfissional' => ['_error' => 'Registro não encontrado.']];
+                throw new NotFoundException(json_encode($dados));
+            }
             if ($this->TipoProfissional->delete($tipoProfissional)) {
                 $message = 'Deletado com sucesso!';
             } else {
@@ -172,6 +181,9 @@ class TipoProfissionalController extends AppController
         } catch (NotFoundException $e) {
             return $this->ErrorHandler->errorHandler($e, 404);
         } catch (Exception $e) {
+            if($e->getCode() == 23000){
+                return $this->ErrorHandler->errorHandlerConstraintViolation($e, 400);
+            }
             return $this->ErrorHandler->errorHandler($e, 500);
         }
     }
