@@ -82,4 +82,61 @@ class EquipeProfissionalTable extends Table
 
         return $validator;
     }
+
+    public function requestAdd($data){
+        $retorno = null;
+
+        $retorno['data_criacao'] = date('Y-m-d H:i:s');
+        isset($data['data_inicio']) ? $retorno['data_inicio'] = $data['data_inicio'] : null;
+        isset($data['id_equipe']) ? $retorno['id_equipe'] = $data['id_equipe'] : null;
+        isset($data['id_profissional']) ? $retorno['id_profissional'] = $data['id_profissional'] : null;
+        isset($data['descricao']) ? $retorno['descricao'] = $data['descricao'] : null;
+        isset($data['ativo']) ? $retorno['ativo'] = $data['ativo'] : null;
+
+
+
+        return $retorno;
+    }
+
+    public function requestEdit($data, $equipeProfissional){
+        $retorno = null;
+
+        if(isset($data['descricao']) && !is_null($data['descricao'])){
+            $retorno['descricao'] = $data['descricao'];
+        }else{
+            $retorno['descricao'] = $equipeProfissional->descricao;
+        }
+
+        if(isset($data['data_inicio']) && !is_null($data['data_inicio'])){
+            $retorno['data_inicio'] = $data['data_inicio'];
+        }else{
+            $retorno['data_inicio'] = $equipeProfissional->data_inicio;
+        }
+
+        if(isset($data['data_fim']) && !is_null($data['data_fim'])){
+            $retorno['data_fim'] = $data['data_fim'];
+        }else{
+            $retorno['data_fim'] = $equipeProfissional->data_fim;
+        }
+
+        if(isset($data['id_profissional']) && !is_null($data['id_profissional'])){
+            $retorno['id_profissional'] = $data['id_profissional'];
+        }else{
+            $retorno['id_profissional'] = $equipeProfissional->id_profissional;
+        }
+
+        if(isset($data['id_equipe']) && !is_null($data['id_equipe'])){
+            $retorno['id_equipe'] = $data['id_equipe'];
+        }else{
+            $retorno['id_equipe'] = $equipeProfissional->id_equipe;
+        }
+
+        if(isset($data['ativo']) && !is_null($data['ativo'])){
+            $retorno['ativo'] = $data['ativo'];
+        }else{
+            $retorno['ativo'] = $equipeProfissional->ativo;
+        }
+        
+        return $retorno;
+    }
 }

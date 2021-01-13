@@ -38,5 +38,20 @@ class ErrorHandlerComponent extends Component
                     ->withStatus($error_code)
                     ->withType('application/json')
                     ->withStringBody(json_encode($dados));
-    }    
+    } 
+
+    public function errorHandlerConstraintViolation($e, $error_code = 400) {
+
+        $message = "Deletar este registro pode gerar dados orfãos, exclusão não permitida!";
+
+        $dados = [
+            "data" => null,
+            "message" => $message
+        ];
+        return $this->_controller->response
+                    ->withStatus($error_code)
+                    ->withType('application/json')
+                    ->withStringBody(json_encode($dados));
+    }   
+    
 }

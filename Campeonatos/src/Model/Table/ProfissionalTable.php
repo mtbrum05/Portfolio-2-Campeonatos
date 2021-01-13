@@ -72,4 +72,43 @@ class ProfissionalTable extends Table
 
         return $validator;
     }
+
+    public function requestAdd($data){
+        $retorno = null;
+
+        $retorno['data_criacao'] = date('Y-m-d H:i:s');
+        isset($data['descricao']) ? $retorno['descricao'] = $data['descricao'] : null;
+        isset($data['nome']) ? $retorno['nome'] = $data['nome'] : null;
+        isset($data['id_profissional']) ? $retorno['id_profissional'] = $data['id_profissional'] : null;
+
+
+
+        return $retorno;
+    }
+
+    public function requestEdit($data, $profissional){
+        $retorno = null;
+
+        $retorno['data_criacao'] = date('Y-m-d H:i:s');
+
+        if(isset($data['descricao']) && !is_null($data['descricao'])){
+            $retorno['descricao'] = $data['descricao'];
+        }else{
+            $retorno['descricao'] = $profissional->descricao;
+        }
+
+        if(isset($data['nome']) && !is_null($data['nome'])){
+            $retorno['nome'] = $data['nome'];
+        }else{
+            $retorno['nome'] = $profissional->nome;
+        }
+
+        if(isset($data['id_profissional']) && !is_null($data['id_profissional'])){
+            $retorno['id_profissional'] = $data['id_profissional'];
+        }else{
+            $retorno['id_profissional'] = $profissional->id_profissional;
+        } 
+        
+        return $retorno;
+    }
 }
